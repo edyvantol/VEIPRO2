@@ -1,11 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once("Security.php");
-$Security = new Security();
-$Security->StartASession();
+session_start();
+$token = bin2hex(openssl_random_pseudo_bytes (32));
+$_SESSION['token'] = $token;
 ?>
 <!doctype html>
 <html>
@@ -18,7 +14,7 @@ $Security->StartASession();
 	<?php
 	//token
 	?>
-	<input type="hidden" name="csrf_token" value="<?php echo($Security->RandomToken()); ?>">
+	<input type="hidden" name="csrf_token" value="<?php echo $token; ?>">
 	<!--username-->
 	Username:<input name="username" type="text"><br>
 	Username moet beginnen met een hoofdletter en voor de rest kleine letters.<br>
@@ -30,7 +26,7 @@ $Security->StartASession();
 	Email: <input name="email" type="email"><br>
 	<!--birthday-->
 	Birthday: <input name="birthday" type="date"><br>
-	YY/MM/DD<br><br>
+	YY-MM-DD<br><br>
 	<!--new-->
 	News:<input type="checkbox" name="checkbox" value="true"><br>
 	<!--Gender-->
@@ -41,4 +37,5 @@ $Security->StartASession();
   <input type="submit" value="formSubmit" name="formSubmit">
 </form>
 </body>
+</html>
 </html>
